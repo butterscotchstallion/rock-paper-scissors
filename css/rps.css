@@ -1,0 +1,30 @@
+
+
+#game-info-table {
+    width: 20%;
+    float: right;
+    margin-top: 10px;
+}
+    #game-info-table td {
+        text-align: center;
+    }
+
+#controls {
+    margin: 5% auto 0 auto;
+    float: none;
+}
+    #controls button {
+        margin-right: 2em;
+    }
+    
+#history {
+    list-style: none;
+    margin: 1em auto;
+    padding: 0;
+    width: 40%;
+    height: 150px;
+    overflow-y: scroll;
+}
+    #history li {
+        padding: 1em;
+    }
