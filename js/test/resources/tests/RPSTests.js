@@ -10,6 +10,16 @@ define('RPSTests', ['RPS'], function (rps) {
         strictEqual(typeof rps, 'object');
     });
     
+    test('getOutcomeDescription should describe the outcome', function () {
+        var result = rps.play({
+            playerWeapon: 'rock',
+            computerWeapon: 'scissors'
+        });
+        
+        // rock crushes scissors
+        strictEqual(result.outcomeVerb, 'crushes');
+    });
+    
     test('play should initialize player weapon', function () {
 
         var result = rps.play({
