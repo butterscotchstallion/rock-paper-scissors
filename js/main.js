@@ -39,7 +39,22 @@ require(['jquery', 'RPS', 'Bootstrap'], function($, rps) {
             $('#computer-paper-count').text(rps.countMoves('computer', 'paper'));
             $('#computer-scissors-count').text(rps.countMoves('computer', 'scissors'));
             
-            $('#history').prepend('<li>#' + moveNumber + ' Computer plays ' + rps.computer.weapon + '; ' + result + '</li>');  
+            var sentence = '<li>#' + moveNumber;
+            
+            // If player defeats computer, phrase it like "Player's rock crushes computer's scissors"
+            if (result === 'win') {
+                sentence += " Player's " + rps.player.weapon + ' ' + rps.getOutcomeVerb();
+                sentence += " Computer's " + rps.computer.weapon;
+            } else if (result === 'lose') {
+                sentence += " Computer's " + rps.computer.weapon + ' ' + rps.getOutcomeVerb();
+                sentence += " Player's " + rps.player.weapon;
+            } else {
+                sentence += ' DRAW';
+            }
+            
+            sentence += '</li>';
+            
+            $('#history').prepend(sentence);  
             moveNumber++;            
         });
     });

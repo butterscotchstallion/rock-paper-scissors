@@ -27,7 +27,9 @@ define('RPS', function () {
                 },
                 
                 moves: []
-            }
+            },
+            
+            outcome: 'draw'
         };
         
         instance.availableWeapons = [
@@ -35,6 +37,42 @@ define('RPS', function () {
             'paper',
             'scissors'
         ];
+        
+        instance.getOutcomeVerb = function () {
+            var verb;
+            
+            // player rock crushes computer scissors
+            if (instance.player.weapon === 'rock' && instance.computer.weapon === 'scissors') {
+                verb = 'crushes';
+            }
+            
+            // player paper covers computer rock
+            if (instance.player.weapon === 'paper' && instance.computer.weapon === 'rock') {
+                verb = 'covers';
+            }
+            
+            // player scissors cut computer paper
+            if (instance.player.weapon === 'scissors' && instance.computer.weapon === 'paper') {
+                verb = 'cut';
+            }
+            
+            // computer scissors cut player paper
+            if (instance.computer.weapon === 'scissors' && instance.player.weapon === 'paper') {
+                verb = 'cut';
+            }
+            
+            // computer rock crushes player scissors
+            if (instance.computer.weapon === 'rock' && instance.player.weapon === 'scissors') {
+                verb = 'crushes';
+            }
+            
+            // computer paper covers player rock
+            if (instance.computer.weapon === 'paper' && instance.player.weapon === 'rock') {
+                verb = 'covers';
+            }
+            
+            return verb;
+        };
         
         instance.getWeaponCounter = function (weapon) {
             var counter;
@@ -156,43 +194,46 @@ define('RPS', function () {
         };
         
         instance.getOutcome = function () {
-            var result = 'draw';
-            
             // Player crushes computer's scissors
             if (instance.player.weapon === 'rock' && instance.computer.weapon === 'scissors') {
-                result = 'win';
+                instance.outcome = 'win';
             }
             
             // Player covers computer's rock
             if (instance.player.weapon === 'paper' && instance.computer.weapon === 'rock') {
-                result = 'win';
+                instance.outcome = 'win';
             }
             
             // Player cuts computer's paper
             if (instance.player.weapon === 'scissors' && instance.computer.weapon === 'paper') {
-                result = 'win';
+                instance.outcome = 'win';
             }
             
             // Computer crushes player's scissors
             if (instance.player.weapon === 'scissors' && instance.computer.weapon === 'rock') {
-                result = 'lose';
+                instance.outcome = 'lose';
             }
             
             // Computer cuts player's paper
             if (instance.player.weapon === 'paper' && instance.computer.weapon === 'scissors') {
-                result = 'lose';
+                instance.outcome = 'lose';
             }
             
             // Computer covers player's rock
             if (instance.player.weapon === 'rock' && instance.computer.weapon === 'paper') {
-                result = 'lose';
+                instance.outcome = 'lose';
+            }
+            
+            // Draw
+            if (instance.player.weapon === instance.computer.weapon) {
+                instance.outcome = 'draw';
             }
             
             instance.player.moves.push(instance.player.weapon);
             instance.computer.moves.push(instance.computer.weapon);
-            instance.updateScore(result);
+            instance.updateScore(instance.outcome);
             
-            return result;
+            return instance.outcome;
         };
         
         instance.applyConfiguration = function (cfg) {

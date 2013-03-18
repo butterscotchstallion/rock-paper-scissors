@@ -10,14 +10,54 @@ define('RPSTests', ['RPS'], function (rps) {
         strictEqual(typeof rps, 'object');
     });
     
-    test('getOutcomeDescription should describe the outcome', function () {
+    test('getOutcomeVerb should describe the outcome', function () {
         var result = rps.play({
             playerWeapon: 'rock',
             computerWeapon: 'scissors'
         });
         
-        // rock crushes scissors
-        strictEqual(result.outcomeVerb, 'crushes');
+        // player rock crushes scissors
+        strictEqual(rps.getOutcomeVerb(), 'crushes');
+        
+        var result = rps.play({
+            playerWeapon: 'paper',
+            computerWeapon: 'rock'
+        });
+        
+        // player paper covers rock
+        strictEqual(rps.getOutcomeVerb(), 'covers');
+        
+        var result = rps.play({
+            playerWeapon: 'scissors',
+            computerWeapon: 'paper'
+        });
+        
+        // player scissors cut paper
+        strictEqual(rps.getOutcomeVerb(), 'cut');
+        
+        var result = rps.play({
+            playerWeapon: 'paper',
+            computerWeapon: 'scissors'
+        });
+        
+        // computers scissors cut paper
+        strictEqual(rps.getOutcomeVerb(), 'cut');
+        
+        var result = rps.play({
+            playerWeapon: 'scissors',
+            computerWeapon: 'rock'
+        });
+        
+        // computers rock crushes paper
+        strictEqual(rps.getOutcomeVerb(), 'crushes');
+        
+        var result = rps.play({
+            playerWeapon: 'rock',
+            computerWeapon: 'paper'
+        });
+        
+        // computers paper covers rock
+        strictEqual(rps.getOutcomeVerb(), 'covers');
     });
     
     test('play should initialize player weapon', function () {

@@ -61,12 +61,28 @@ define('GameLogicTests', ['RPS'], function (rps) {
     });
     
     test('identical weapons should cause a draw', function () {
+        rps.resetState();
+        
         var result = rps.play({
             playerWeapon: 'rock',
             computerWeapon: 'rock'
         });
         
-        strictEqual(result, 'draw');        
+        strictEqual(result, 'draw');    
+        
+        var result = rps.play({
+            playerWeapon: 'paper',
+            computerWeapon: 'paper'
+        });
+        
+        strictEqual(result, 'draw');  
+        
+        var result = rps.play({
+            playerWeapon: 'scissors',
+            computerWeapon: 'scissors'
+        });
+        
+        strictEqual(result, 'draw');  
     });
     
     test('getRandomWeapon should return rock/paper/scissors', function () {
