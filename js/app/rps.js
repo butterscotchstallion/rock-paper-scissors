@@ -36,6 +36,63 @@ define('RPS', function () {
             'scissors'
         ];
         
+        instance.getWeaponCounter = function (weapon) {
+            var counter;
+            
+            switch (weapon) {
+                case 'rock':
+                    counter = 'paper';
+                break;
+                
+                case 'scissors':
+                    counter = 'rock';
+                break;
+                
+                case 'paper':
+                    counter = 'scissors';
+                break;
+            }
+            
+            return counter;
+        };
+        
+        // Gets most common player move (don't need to know about computer, for now)
+        instance.getMostCommonMove = function () {
+            var moves = [];
+            var mlen  = instance.availableWeapons.length;
+            
+            // Iterate available weapons and count the occurance of each
+            for (var j = 0; j < mlen; j++) {
+                switch(instance.availableWeapons[j]) {
+                    case 'rock':
+                        moves.push({ weapon: 'rock', occurance: instance.countMoves('player', 'rock') });
+                    break;
+                    
+                    case 'paper':
+                        moves.push({ weapon: 'paper', occurance: instance.countMoves('player', 'paper') });
+                    break;
+                    
+                    case 'scissors':
+                        moves.push({ weapon: 'scissors', occurance: instance.countMoves('player', 'scissors') });
+                    break;
+                }
+            }
+            
+            moves.sort(function (a, b) {
+                if (a.occurance < b.occurance) {
+                    return -1;
+                }
+                
+                if (a.occurance > b.occurance) {
+                    return 1;
+                }
+                
+                return 0;
+            });
+            
+            return moves.pop().weapon;
+        };
+        
         instance.countMoves = function (target, weapon) {
             var moves      = target === 'player' ? instance.player.moves : instance.computer.moves;
             var numberOfMoves = 0;
@@ -152,8 +209,15 @@ define('RPS', function () {
                 computerWeaponIsValid = instance.validateWeapon(cfg.playerWeapon);                
                 instance.setComputerWeapon(cfg.computerWeapon);
             } else {
-                // No weapon specified, let's pick one 
-                instance.setComputerWeapon(instance.getRandomWeapon());
+                var weapon;
+                
+                if (instance.player.moves.length > 3) {
+                    weapon = instance.getWeaponCounter(instance.getMostCommonMove());
+                } else {
+                    weapon = instance.getRandomWeapon();
+                }
+                
+                instance.setComputerWeapon(weapon);
                 computerWeaponIsValid = true;
             }
             

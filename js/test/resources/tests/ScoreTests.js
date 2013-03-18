@@ -18,6 +18,34 @@ define('ScoreTests', ['RPS'], function (rps) {
         strictEqual(rps.computer.moves.length, 0);
     });
     
+    test('getWeaponCounter should return the weapon that counters a given weapon', function () {       
+        strictEqual(rps.getWeaponCounter('rock'), 'paper');        
+        strictEqual(rps.getWeaponCounter('scissors'), 'rock');        
+        strictEqual(rps.getWeaponCounter('paper'), 'scissors');    
+    });
+    
+    test('getMostCommonMove should return the most common move', function () {
+        
+        rps.resetState();
+        
+        rps.play({
+            playerWeapon: 'scissors',
+            computerWeapon: 'rock'
+        });
+        
+        rps.play({
+            playerWeapon: 'scissors',
+            computerWeapon: 'paper'
+        });
+        
+        rps.play({
+            playerWeapon: 'rock',
+            computerWeapon: 'scissors'
+        });
+        
+        strictEqual(rps.getMostCommonMove(), 'scissors');           
+    });
+    
     test('countMoves should count the number of moves given a weapon', function () {
         
         rps.resetState();

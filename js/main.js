@@ -1,7 +1,7 @@
 
 
 require.config({
-    baseUrl: "/rps/js",
+    baseUrl: "/rock-paper-scissors/js",
     
     paths: {
         Bootstrap : 'lib/bootstrap.min',
