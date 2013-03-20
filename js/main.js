@@ -4,15 +4,35 @@ require.config({
     baseUrl: "/rock-paper-scissors/js",
     
     paths: {
-        Bootstrap : 'lib/bootstrap.min',
+        // Libs
+        bootstrap    : 'lib/bootstrap.min',
+        underscore   : 'lib/underscore.min',
+        backbone     : 'lib/backbone.min',
+        handlebars   : 'lib/handlebars.min',
+        text         : 'lib/text',
         
-        RPS       : './app/rps'
+        // App
+        RPS          : './app/rps',
+        AppView      : './app/views/appView',
+        GameInfoView : './app/views/gameInfoView'
+    },
+    shim: {
+        underscore: {
+          exports: '_'
+        },
+        backbone: {
+          deps: ["underscore", "jquery"],
+          exports: "Backbone"
+        }
     }
 });
 
-require(['jquery', 'RPS', 'Bootstrap'], function($, rps) {
+require(['jquery', 'RPS', 'bootstrap', 'AppView', 'GameInfoView'], function($, rps, bootstrap, AppView, GameInfoView) {
 
     $(function() {
+    
+        new AppView();
+        
         var moveNumber = 1;
         
         $('button').on('click', function () {            
